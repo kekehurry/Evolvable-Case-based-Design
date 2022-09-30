@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="data:;base64,=">
+        <title>rhino3dm: Basic 3dm Viewer</title>
+        <style>
+            body { margin: 0; }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+</head>
+<body>
+<script type="module">
+// Import libraries
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.126.0/build/three.module.js'
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.126.0/examples/jsm/controls/OrbitControls.js'
+import rhino3dm from 'https://cdn.jsdelivr.net/npm/rhino3dm@0.15.0-beta/rhino3dm.module.js'
+
+// BOILERPLATE //
+let scene, camera, renderer
+
+
+window.onload = function () {
+            var data = '{{data}}'
+            var model = JSON.parse(data);
+            init();
+            for (var i=0;i<model.length;++i){
+                var coordinates = model[i].coordinates
+                var color=model[i].color
+                var height = model[i].height
+                var mesh = create_extrusion(coordinates,color,height)
+                scene.add(mesh)
+            }
+       }
+
+function create_extrusion(coordinates,color,height){
+    var shape = new THREE.Shape();
+    shape.moveTo(coordinates[0][0],coordinates[0][1]);
+    for(var i=0; i<coordinates.length; ++i){
+        shape.lineTo(coordinates[i][0],coordinates[i][1])
+    }
+    var extrudeSettings = {
+	    steps: 2,
+	    depth: height,
+	    bevelEnabled: false,
+    };
+    var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
+    var material = new THREE.MeshPhongMaterial( { color: color } );
+    return new THREE.Mesh( geometry, material ) ;
+    }
+
+function init(){
+
+    THREE.Object3D.DefaultUp = new THREE.Vector3(0,0,1)
+
+    scene = new THREE.Scene()
+    scene.background = new THREE.Color(1,1,1)
+    camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 )
+    camera.position.set(-400,-400,600)
+
+    var light = new THREE.AmbientLight( 0x404040 )
+    light.intensity = 2
+    var directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 )
+    var hemislight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 )
+    scene.add( light )
+    scene.add( hemislight )
+    scene.add( directionalLight )
+
+    renderer = new THREE.WebGLRenderer({antialias: true})
+    renderer.setPixelRatio( window.devicePixelRatio )
+    renderer.setSize( window.innerWidth, window.innerHeight )
+    document.body.appendChild( renderer.domElement )
+
+    const controls = new OrbitControls( camera, renderer.domElement )
+
+    window.addEventListener( 'resize', onWindowResize, false )
+    animate()
+}
+
+function animate () {
+    requestAnimationFrame( animate )
+    renderer.render( scene, camera )
+}
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth /window.innerHeight
+    camera.updateProjectionMatrix()
+    renderer.setSize( window.innerWidth, window.innerHeight )
+    animate()
+}
+
+function meshToThreejs(mesh, material) {
+    const loader = new THREE.BufferGeometryLoader()
+    const geometry = loader.parse(mesh.toThreejsJSON())
+    return new THREE.Mesh(geometry, material)
+}
+</script>
+</body>
+</html>
