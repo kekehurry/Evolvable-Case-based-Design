@@ -13,7 +13,7 @@ This repository is the interface of the evolvable case-based design system: an A
 
     streamlit run app.py
 
-![interface](static\interface.jpg)
+![interface](https://github.com/kekehurry/Evolvable-Case-based-Design/blob/main/static/interface.jpg)
 
 # 3 Project Contributor and Contact
 The whole project is supervised by: Professor Yubo Liu (liuyubo@scut.edu.cn) and Associate Professor Qiaoming Deng (dengqm@scut.edu.cn), Doctor Kai Hu (arhukai@scut.edu.cn) provided technical support for algorithms and data collection. For any questions about this project please contact the authors by sending email.
