@@ -52,7 +52,6 @@ class Env():
         with torch.no_grad():
             latent_vector = self.pca.inverse_transform(action)
             latent_vector = torch.Tensor([latent_vector]).to(self.solver.device)
-            print(latent_vector.shape)
             gen_img = self.solver.nets.generator(self.seg,latent_vector)
             gen_img = transforms.ToPILImage()(gen_img[0])
             # gen_img.save('results/gen_img.png')
@@ -319,7 +318,6 @@ def main():
             state = next_state
             agent.update()
         x,y = action
-        print(state)
         img = env.generate(env.input,x,y)
         FAR,BCR,new_img,contours,ids,heights = env.calculate(img)
         r = env.createmodel(contours,ids,heights)

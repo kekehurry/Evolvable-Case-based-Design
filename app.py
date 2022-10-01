@@ -5,14 +5,11 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 import torch
 import random
 import json,cv2
 from model.ddpg import Env,DDPG
-import plotly.express as px
-import plotly.graph_objects as go
 
 agent = DDPG()
 env = Env()
@@ -32,11 +29,6 @@ st.title("Evolvable Case-based Design")
 st.text("Genrate City Morphology with specific FSI, GSI and road system")
 placeholder1 = st.empty()
 placeholder2 = st.empty()
-# col1,col2 = st.columns([4,2])
-# with col1:
-#     placeholder2 = st.empty()
-# with col2:
-#     placeholder3 = st.empty()
 
 st.session_state.fsi_coeff = 0.
 st.session_state.gsi_coeff = 0.
@@ -84,25 +76,6 @@ def visualizer(FSI,GSI,L,OSR,target_FSI,target_GSI):
         html = f.read()
     with placeholder2.container():
         components.html(html.replace(r'{{data}}',data), height=600)
-
-    # with placeholder3.container():
-    #     st.markdown('<br></br><br></br>',unsafe_allow_html=True)
-    #     df1 = pd.DataFrame(dict(
-    #         r=np.array(target_values+values)/np.array(max_values+max_values),
-    #         theta=labels+labels,
-    #         type = np.array(['target','target','target','target','result','result','result','result'])))
-    #     fig1 = px.line_polar(df1, r='r', theta='theta',color='type',line_close=True)
-    #     fig1.update_traces(fill='toself')
-    #     fig1.update_layout(
-    #         polar=dict(
-    #             radialaxis=dict(
-    #             range = [0,1],
-    #             visible=True
-    #             ),
-    #         ),
-    #         showlegend=False,
-    #         )
-    #     st.plotly_chart(fig1, use_container_width=True)
 
     cols = st.columns(4)
     for i in range(4):
