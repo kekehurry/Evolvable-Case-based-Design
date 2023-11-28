@@ -14,3 +14,8 @@ authors:
     family-names: Hu
   - given-names: Qiaoming
     family-names: Deng
+identifiers:
+  - type: url
+    value: >-
+      https://github.com/kekehurry/Evolvable-Case-based-Design
+repository-code: 'https://github.com/kekehurry/Evolvable-Case-based-Design'
