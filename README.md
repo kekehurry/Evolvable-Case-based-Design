@@ -23,6 +23,9 @@ streamlit run app.py
 # 4 Project Contributor and Contact
 The whole project is supervised by: Professor Yubo Liu (liuyubo@scut.edu.cn) and Associate Professor Qiaoming Deng (dengqm@scut.edu.cn), Doctor Kai Hu (arhukai@scut.edu.cn) provided technical support for algorithms and data collection. For any questions about this project please contact the authors by sending email.
 
+# 5 Cite Our paper
+Liu, Y., Hu, K., & Deng, Q. (2023). Evolvable case-based design: An artificial intelligence system for urban form generation with specific indicators. Environment and Planning B: Urban Analytics and City Science, 0(0). https://doi.org/10.1177/23998083231219364
+
 # 5 Declaration
 Note that the DATA and CODE are free for Research and Education Use ONLY.  
 
