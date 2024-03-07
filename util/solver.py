@@ -35,10 +35,9 @@ class Solver():
         else :
             raise (Exception('Wrong Dataset Mode'))
 
-        if args.mode=='train':
-            self.data = {
-                x : DataLoader( self.dataset[x],batch_size=args.batch_size,shuffle=True,num_workers=args.num_workers) for x in ['train','test']
-            }
+        self.data = {
+            x : DataLoader( self.dataset[x],batch_size=args.batch_size,shuffle=True,num_workers=args.num_workers) for x in ['train','test']
+        }
 
         
         if torch.cuda.is_available():

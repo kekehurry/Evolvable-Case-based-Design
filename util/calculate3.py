@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-from PIL import Image
+from sklearn.neighbors import KernelDensity
 
 def calculate(image,width=400,height=400,threshold=50,iterations=0):
     
@@ -39,30 +39,31 @@ def calculate(image,width=400,height=400,threshold=50,iterations=0):
             heights.append(level*3)
             ids.append(i)
             
-    FSI= np.sum(areas)/(width*height)
-    GSI = np.sum(footprints)/(width*height)
-    L = FSI/GSI
-    OSR = (1-GSI)/FSI
-    data = (FSI,GSI,L,OSR)
+
+    BCR = np.sum(footprints)/(width*height)
+    FAR = np.sum(areas)/(width*height)
+
+    data = (BCR,FAR)
 
     return data,contours,heights,ids
 
 if __name__ == '__main__':
-
-    # FILE = r'datasets\Shenzhen\test\images\id_455.png'
-    # image = Image.open(FILE)
-    # data,contours,heights,ids = calculate(image)
-    # print(data)
-    folder = r'datasets\Shenzhen2\train\images'
-    df = pd.DataFrame(columns=['FILE','FSI','GSI','L','OSR'])
-    for i,file in enumerate(os.listdir(folder)):
-        if file.endswith('.png'):
-            filepath = os.path.join(folder,file)
-            img = Image.open(filepath).convert('RGB')
-            data,contours,heights,ids = calculate(img)
-            df.loc[i] = [filepath,data[0],data[1],data[2],data[3]]
-            print(f'processing {i}/{len(os.listdir(folder))}...')
     
-    df.to_excel('results/Shenzhen2/train_data.xlsx')
+    # dir = r'datasets\shenzhen\train\1'
+    # file_list = [os.path.join(dir,x) for x in os.listdir(dir) if x[-3:]=='png']
+    # df = pd.DataFrame(columns=['FILE','BCR','FAR','KD'])
+   
+    # for i  in tqdm(range(len(file_list))):
+    #     FILE = file_list[i]
+    #     image = cv2.imread(FILE)
+    #     data,contours,heights = calculate(image)
+    #     BCR,FAR,KD = data
+    #     df.loc[i] =  dict(zip(df.columns, [FILE,BCR,FAR,KD]))
+    
+    # df.to_excel('analysis/train_data2.xlsx',index=True)
 
-
+    from PIL import Image
+    FILE = r'id_1383.png'
+    image = Image.open(FILE)
+    data,contours,heights = calculate(image)
+    print(contours)
